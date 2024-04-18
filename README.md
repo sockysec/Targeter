@@ -6,9 +6,14 @@ Targeter is particularly useful for new OSINT analysts who are unfamiliar or oth
 
 
 ## Installation 
-- Download the HTML files (or copy/paste them in Notepad and save them as an .html file).
-- Open the HTML file in a browser and bookmark as desired.
+- Download the HTML files (Figure 1)
+- Extract/Unzip the file
+- Open the HTML files in a browser and bookmark as desired (Figure 2).
 
+_Figure 1_
+![image](https://github.com/sockysec/Targeter/assets/121141737/0683f34b-9186-4dfd-8aa2-967a28d5840d)
+
+_Figure 2_
 ![image](https://github.com/sockysec/Targeter/assets/121141737/1a27483d-b683-4ec4-a7b3-3e8214bc1b71)
   
 # Targeter (Twitter/X)
