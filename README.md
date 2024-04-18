@@ -1,13 +1,13 @@
 # Targeter
 
-Targeter is a simple HTML tool for generating and running advanced Boolean queries across Google or Twitter/X. It is designed for use in OSINT Person Investigations.
+A straightforward HTML tool for generating and executing advanced Boolean queries on Google or Twitter/X, primarily tailored for OSINT Person Investigations. 
 
-Targeter is particularly useful for new OSINT analysts who are unfamiliar or otherwise unconfident in running advanced Google Dorks or Twitter queries but is also useful for any analyst to rapidly conduct reconnaissance and assess a target.
+Targeter is particularly useful for new OSINT analysts unfamiliar with running advanced Google Dorks or Twitter queries, but is also highly useful for any analyst to swiftly conduct reconnaissance on a target.
 
 
 ## Installation 
-- Download the HTML files (Figure 1)
-- Extract/Unzip the file
+- Download the HTML files (Figure 1).
+- Extract/Unzip the file.
 - Open the HTML files in a browser and bookmark as desired (Figure 2).
 
 _Figure 1_
@@ -22,12 +22,12 @@ _Figure 2_
 # Targeter (Twitter/X)
 
 A template-based query builder for analyzing a target Twitter/X user's Tweets. 
-This tool is useful for investigating a user with a high volume of Tweets, delivering a smaller subset of Tweet that have a higher chance of being relevant.
+This tool is especially useful for investigating a user with a high volume of Tweets, delivering a smaller subset of Tweet that have a higher chance of being relevant.
 
 ## Use
-- Input target username (i.e. @johnsmith)
-- Select query type
-- Generate and run query (must be signed into Twitter/X)
+- Input target username (i.e. @johnsmith).
+- Select query type.
+- Generate and run query (must be signed into Twitter/X).
 - Repeat the method with other queries as needed to achieve identity attribution.
 
 
@@ -40,16 +40,16 @@ This tool is useful for investigating a user with a high volume of Tweets, deliv
 
 # Targeter (Google)
 
-A template-based query builder for performing Google Dorks reconnaissance on a target subject. 
+A template-based query builder for performing Google Dorks reconnaissance on a target. 
 
 ## Use
-- Input target FirstName and LastName
-- (Optional) Add middle name
-- (Optional) Add a keyword to refine your result (i.e. New York OR Lawyer)
-- (Optional) Add an exclusion keyword to mitigate noise (i.e. Football). This will not return results featuring this term.
-- Construct queries
-- You can then choose to run queries individual or all at once.
-NOTE: Your browser may block the script by opening multiple tabs when running all queries. You may need to allow this behaviour on the page.
+- Input target FirstName and LastName.
+- (Optional) Add target's middle name.
+- (Optional) Add a keyword to refine your results (i.e. New York OR Lawyer).
+- (Optional) Add an exclusion keyword to mitigate noise (i.e. Football). This will not return any results featuring this term.
+- Construct queries.
+- You can then choose to run queries individually or all at once.
+NOTE: Your browser may block the script by opening multiple tabs when running all queries. You may need to allow this behavior on the page.
 
 ![image](https://github.com/sockysec/Targeter/assets/121141737/8af77f59-20cf-43a4-a331-70b5592632a1)
 
