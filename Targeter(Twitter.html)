@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Targeter (Twitter/X)</title>
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-f8v5sUdql6/fU/bwV9Zu0MTv5xsc1gglQYnxB3ZOzXHeEMqW4rD2wJmLuyJgxekP1hbfM/0G92/0tSvzmXZt2Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: monospace !important;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            background-color: #222;
+            border-radius: 8px;
+            padding: 40px;            
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #333;
+            color: #fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #31363c;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:hover {
+            background-color: #272b2f;
+        }
+
+        #queryResult {
+            margin-top: 30px;
+        }
+
+        .query-text {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .run-search-btn {
+            background-color: #1c3722;
+            transition: background-color 0.3s;
+        }
+
+        .run-search-btn:hover {
+            background-color: #0f1e13;
+        }
+
+        .custom-keywords {
+            display: none; /* Initially hide custom keywords input */
+        }
+
+        .icon {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Targeter (Twitter/X)</h1>
+        <form id="twitterSearchForm">
+            <label for="twitterHandle">Input target Twitter/X handle (i.e. @johnsmith):</label>
+            <input type="text" id="twitterHandle" name="twitterHandle">
+            <label>Select search type:</label>
+            <select id="searchType" name="searchType" onchange="toggleCustomKeywords()">
+                <option value="family">Family</option>
+                <option value="job">Job/School/Education</option>
+                <option value="location">Location</option>
+                <option value="socialMedia">Other Social Media Accounts</option>
+                <option value="age">Age/DOB</option>
+                <option value="custom">Custom Keywords</option>
+            </select>
+            <div id="customKeywordsContainer" class="custom-keywords">
+                <label for="customKeywords">Enter custom keywords (separated by commas):</label>
+                <input type="text" id="customKeywords" name="customKeywords">
+            </div>
+            <button type="button" onclick="buildQuery()">
+                <i class="icon fas fa-search"></i> Build Query
+            </button>
+        </form>
+        <div id="queryResult"></div>
+    </div>
+
+    <script>
+        function toggleCustomKeywords() {
+            const searchType = document.getElementById('searchType').value;
+            const customKeywordsContainer = document.getElementById('customKeywordsContainer');
+            if (searchType === 'custom') {
+                customKeywordsContainer.style.display = 'block';
+            } else {
+                customKeywordsContainer.style.display = 'none';
+            }
+        }
+
+        function buildQuery() {
+            let handleInput = document.getElementById('twitterHandle').value.trim();
+            const searchType = document.getElementById('searchType').value;
+            const customKeywordsInput = document.getElementById('customKeywords').value.trim();
+
+            let query = "";
+            let displayQuery = "";  // Display-friendly representation of the query
+
+            // Error handling for Twitter handle input
+            if (!handleInput.startsWith('@')) {
+                handleInput = '@' + handleInput; // Add @ if not present
+            }
+
+            query += "(from:" + handleInput + ")";
+            displayQuery += "(from:" + handleInput + ")";
+
+            switch (searchType) {
+                case "family":
+                    query += " (mum OR mother OR dad OR father OR sister OR sisters OR brother OR brothers OR child OR childs OR children OR childrens kid OR kids OR daughter OR daughters OR son OR sons OR family OR spouse)";
+                    displayQuery += " (mum OR mother OR dad OR father OR sister OR sisters OR brother OR brothers OR child OR childs OR children OR childrens kid OR kids OR daughter OR daughters OR son OR sons OR family OR spouse)";
+                    break;
+                case "job":
+                    query += " (school OR university OR college OR uni OR teacher OR coach OR professor OR work OR shift OR boss OR manager OR homework)";
+                    displayQuery += " (school OR university OR college OR uni OR teacher OR coach OR professor OR work OR shift OR boss OR manager OR homework)";
+                    break;
+                case "location":
+                    query += " (home OR house OR address OR residence OR flat OR apartment OR \"lives in\" OR \"live in\" OR \"resides in\" OR \"I’m from\" OR \"im from\" OR \"born in\")";
+                    displayQuery += " (home OR house OR address OR residence OR flat OR apartment OR \"lives in\" OR \"live in\" OR \"resides in\" OR \"I’m from\" OR \"im from\" OR \"born in\")";
+                    break;
+                case "socialMedia":
+                    query += " (facebook OR FB OR Instagram OR IG OR linkedin OR tiktok OR linktree OR \"tik tok\" OR \"dm me\" OR \"message me\")";
+                    displayQuery += " (facebook OR FB OR Instagram OR IG OR linkedin OR tiktok OR linktree OR \"tik tok\" OR \"dm me\" OR \"message me\")";
+                    break;
+                case "age":
+                    query += " (birthday OR \"years old\" OR years-old OR \"yr old\" OR \"yrs old\" OR cakeday OR teenager 20s OR 30s OR 40s OR 50s OR 60s)";
+                    displayQuery += " (birthday OR \"years old\" OR years-old OR \"yr old\" OR \"yrs old\" OR cakeday OR teenager 20s OR 30s OR 40s OR 50s OR 60s)";
+                    break;
+                case "custom":
+                    if (customKeywordsInput) {
+                        let keywordsArray = customKeywordsInput.split(',').map(keyword => keyword.trim());
+                        query += " (" + keywordsArray.join(' OR ') + ")";
+                        displayQuery += " (" + keywordsArray.join(' OR ') + ")";
+                    }
+                    break;
+            }
+
+            if (query !== "") {
+                document.getElementById('queryResult').innerHTML = `
+                    <div class="query-text">Generated Query: ${displayQuery}</div>
+                    <button class="run-search-btn" onclick="runSearch('${encodeURIComponent(query)}')">
+                        <i class="icon fas fa-search"></i> Run Search
+                    </button>
+                `;
+            } else {
+                document.getElementById('queryResult').innerHTML = `<div class="query-text">Please enter a handle and select a search type.</div>`;
+            }
+        }
+
+        function runSearch(query) {
+            const searchUrl = "https://twitter.com/search?q=" + query + "&f=live";
+            window.open(searchUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
