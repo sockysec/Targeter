@@ -4,11 +4,12 @@ Targeter is a simple HTML tool for generating and running advanced Boolean queri
 Targeter is particularly useful for new OSINT analysts who are unfamiliar or otherwise unconfident in running advanced Google Dorks or Twitter queries but is also useful for any analyst to rapidly conduct reconnaissance and assess a target.
 
 
-#Installation 
-- Download these HTML files (or copy/paste them in Notepad and save them as an .html file).
+## Installation 
+- Download the HTML files (or copy/paste them in Notepad and save them as an .html file).
 - Open the HTML file in a browser and bookmark as desired.
-  
 
+![image](https://github.com/sockysec/Targeter/assets/121141737/1a27483d-b683-4ec4-a7b3-3e8214bc1b71)
+  
 # Targeter (Twitter/X)
 
 A template-based query builder for analyzing a target Twitter/X user's Tweets. 
