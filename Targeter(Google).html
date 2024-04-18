@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Targeter (Google)</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: monospace !important;
+      background-color: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #222;
+      border-radius: 8px;      
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #444;
+      border-radius: 8px;
+      box-sizing: border-box;
+      background-color: #333;
+      color: #fff;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #31363c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button:hover {
+      background-color: #272b2f;
+    }
+
+    button.run-all-btn.dark-mode-green {
+      background-color: #1c3722; 
+    }
+
+    button.run-all-btn.dark-mode-green:hover {
+      background-color: #0f1e13
+    }
+
+    #queryResult {
+      margin-top: 30px;
+    }
+
+    .query-text {
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: #ccc;
+      position: relative;
+    }
+
+    .query-text h2 {
+      margin-bottom: 5px;
+    }
+
+    .query-execution-button {
+      position: absolute;
+      top: -5px;
+      transform: translateY(-50%);
+      right: 0;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      background-color: #31363c;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .query-execution-button:hover {
+      background-color: #272b2f;
+    }
+
+    .divider {
+      border-bottom: 1px solid #444;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Targeter (Google)</h1>
+    <label for="first-name">First Name:</label>
+    <input type="text" id="first-name" required>
+
+    <label for="middle-name">Middle Name (optional):</label>
+    <input type="text" id="middle-name">
+
+    <label for="last-name">Last Name:</label>
+    <input type="text" id="last-name" required>
+
+    <label for="focusing-terms">Focusing Terms (optional):</label>
+    <input type="text" id="focusing-terms">
+
+    <label for="exclusion-terms">Exclusion Terms (optional):</label>
+    <input type="text" id="exclusion-terms">
+
+    <button onclick="generateSearchQueries()">Generate Search Queries</button>
+
+    <div id="queryResult"></div>
+
+    <button class="run-all-btn dark-mode-green" onclick="runAllSearches()">Run All Searches</button>
+  </div>
+
+  <script>
+    function generateSearchQueries() {
+      // Clear existing query results
+      document.getElementById("queryResult").innerHTML = '';
+
+      // Retrieve input values
+      const firstName = document.getElementById("first-name").value.trim();
+      const middleName = document.getElementById("middle-name").value.trim();
+      const lastName = document.getElementById("last-name").value.trim();
+      const focusingTerms = document.getElementById("focusing-terms").value.trim();
+      const exclusionTerms = document.getElementById("exclusion-terms").value.trim();
+
+      // Build and display new queries
+      displayQueryResult(addTermsToQuery(buildNameQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "Name Query");
+      displayQueryResult(addTermsToQuery(buildDOBQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "DOB Query");
+      displayQueryResult(addTermsToQuery(buildContactDetailsQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "Contact Details Query");
+      displayQueryResult(addTermsToQuery(buildLocationQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "Location Query");
+      displayQueryResult(addTermsToQuery(buildFamilyQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "Family Query");
+      displayQueryResult(addTermsToQuery(buildFileQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "File Query");
+    }
+
+    function addTermsToQuery(query, focusingTerms, exclusionTerms) {
+      let modifiedQuery = query;
+      if (focusingTerms) {
+        modifiedQuery += ` AND "${focusingTerms}"`;
+      }
+      if (exclusionTerms) {
+        modifiedQuery += ` -"${exclusionTerms}"`;
+      }
+      return modifiedQuery;
+    }
+
+    function buildNameQuery(firstName, middleName, lastName) {
+      const variants = [
+        `${firstName} ${lastName}`,
+        `${lastName}, ${firstName}`,
+        `${firstName} ${middleName} ${lastName}`,
+        `${firstName} ${middleName.charAt(0)} ${lastName}`,
+        `${lastName}, ${middleName.charAt(0)} ${firstName}`,
+        `${firstName.charAt(0)} ${lastName}`,
+        `${firstName.charAt(0)} ${middleName} ${lastName}`,
+        `${firstName.charAt(0)} ${middleName.charAt(0)} ${lastName}`,
+        `${firstName.charAt(0)}${middleName.charAt(0)} ${lastName}`,
+      ];
+
+      return "(" + variants.map(v => `"${v}"`).join(" | ") + ")";
+    }
+
+    function buildDOBQuery(firstName, middleName, lastName) {
+      const nameQuery = buildNameQuery(firstName, middleName, lastName);
+      return `${nameQuery} AND (born | age | birthday | DOB | "date of birth")`;
+    }
+
+    function buildContactDetailsQuery(firstName, middleName, lastName) {
+      const nameQuery = buildNameQuery(firstName, middleName, lastName);
+      return `${nameQuery} AND ("phone number" | "mobile number" | "email address")`;
+    }
+
+    function buildLocationQuery(firstName, middleName, lastName) {
+      const nameQuery = buildNameQuery(firstName, middleName, lastName);
+      return `${nameQuery} AND (home | house | address | residence | flat | apartment | "lives in" | "resides in")`;
+    }
+
+    function buildFamilyQuery(firstName, middleName, lastName) {
+      const nameQuery = buildNameQuery(firstName, middleName, lastName);
+      return `${nameQuery} AND (children | child | daughter | son | daughters | sons | family | husband | wife)`;
+    }
+
+    function buildFileQuery(firstName, middleName, lastName) {
+      const nameQuery = buildNameQuery(firstName, middleName, lastName);
+      return `${nameQuery} AND (filetype:pdf | filetype:doc | filetype:docx | filetype:txt | filetype:ppt | filetype:pptx | filetype:xls | filetype:xlsx | filetype:csv)`;
+    }
+
+    function displayQueryResult(query, queryName) {
+      const queryContainer = document.getElementById("queryResult");
+      const div = document.createElement("div");
+      div.classList.add("query-text");
+      div.innerHTML = `<h2>${queryName}</h2>
+                      <button class="icon query-execution-button" onclick="runGoogleSearch('${encodeURIComponent(query)}')">
+                        <i class="fas fa-search"></i>
+                      </button>
+                      <p>${query}</p>`;
+      queryContainer.appendChild(div);
+      queryContainer.appendChild(document.createElement("hr")); // Adding divider
+    }
+
+    function runGoogleSearch(query) {
+      const url = `https://www.google.com/search?q=${query}`;
+      window.open(url, "_blank");
+    }
+
+    function runAllSearches() {
+      const queries = document.querySelectorAll(".query-text p");
+      queries.forEach(query => {
+        const searchQuery = encodeURIComponent(query.textContent.trim());
+        const url = `https://www.google.com/search?q=${searchQuery}`;
+        window.open(url, "_blank");
+      });
+    }
+  </script>
+</body>
+</html>
