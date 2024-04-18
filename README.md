@@ -1,4 +1,4 @@
-#Targeter
+# Targeter
 
 Targeter is a simple HTML tool for generating and running advanced Boolean queries across Google or Twitter/X. It is designed for use in OSINT Person Investigations.
 Targeter is particularly useful for new OSINT analysts who are unfamiliar or otherwise unconfident in running advanced Google Dorks or Twitter queries but is also useful for any analyst to rapidly conduct reconnaissance and assess a target.
@@ -20,7 +20,6 @@ This tool is useful for investigating a user with a high volume of Tweets, deliv
 - Generate and run query (must be signed into Twitter/X)
 - Repeat the method with other queries as needed to achieve identity attribution.
 
-![image](https://github.com/sockysec/Targeter/assets/121141737/c5de0c4a-562c-40ed-9ae7-d94d579f82fb)
 
 ![image](https://github.com/sockysec/Targeter/assets/121141737/08307684-4c44-4864-ac77-dd9f592acf80)
 
@@ -41,8 +40,6 @@ A template-based query builder for performing Google Dorks reconnaissance on a t
 - Construct queries
 - You can then choose to run queries individual or all at once.
 NOTE: Your browser may block the script by opening multiple tabs when running all queries. You may need to allow this behaviour on the page.
-
-![image](https://github.com/sockysec/Targeter/assets/121141737/ee6e27d5-40ba-430b-a7ba-3802947d9193)
 
 ![image](https://github.com/sockysec/Targeter/assets/121141737/8af77f59-20cf-43a4-a331-70b5592632a1)
 
