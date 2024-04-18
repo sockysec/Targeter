@@ -1,6 +1,7 @@
 # Targeter
 
 Targeter is a simple HTML tool for generating and running advanced Boolean queries across Google or Twitter/X. It is designed for use in OSINT Person Investigations.
+
 Targeter is particularly useful for new OSINT analysts who are unfamiliar or otherwise unconfident in running advanced Google Dorks or Twitter queries but is also useful for any analyst to rapidly conduct reconnaissance and assess a target.
 
 
