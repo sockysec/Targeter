@@ -71,7 +71,7 @@
     }
 
     button.run-all-btn.dark-mode-green:hover {
-      background-color: #0f1e13
+      background-color: #0f1e13;
     }
 
     #queryResult {
@@ -145,17 +145,14 @@
 
   <script>
     function generateSearchQueries() {
-      // Clear existing query results
       document.getElementById("queryResult").innerHTML = '';
 
-      // Retrieve input values
       const firstName = document.getElementById("first-name").value.trim();
       const middleName = document.getElementById("middle-name").value.trim();
       const lastName = document.getElementById("last-name").value.trim();
       const focusingTerms = document.getElementById("focusing-terms").value.trim();
       const exclusionTerms = document.getElementById("exclusion-terms").value.trim();
 
-      // Build and display new queries
       displayQueryResult(addTermsToQuery(buildNameQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "Name Query");
       displayQueryResult(addTermsToQuery(buildDOBQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "DOB Query");
       displayQueryResult(addTermsToQuery(buildContactDetailsQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "Contact Details Query");
@@ -166,12 +163,8 @@
 
     function addTermsToQuery(query, focusingTerms, exclusionTerms) {
       let modifiedQuery = query;
-      if (focusingTerms) {
-        modifiedQuery += ` AND "${focusingTerms}"`;
-      }
-      if (exclusionTerms) {
-        modifiedQuery += ` -"${exclusionTerms}"`;
-      }
+      if (focusingTerms) modifiedQuery += ` AND "${focusingTerms}"`;
+      if (exclusionTerms) modifiedQuery += ` -"${exclusionTerms}"`;
       return modifiedQuery;
     }
 
@@ -179,14 +172,19 @@
       const variants = [
         `${firstName} ${lastName}`,
         `${lastName}, ${firstName}`,
-        `${firstName} ${middleName} ${lastName}`,
-        `${firstName} ${middleName.charAt(0)} ${lastName}`,
-        `${lastName}, ${middleName.charAt(0)} ${firstName}`,
         `${firstName.charAt(0)} ${lastName}`,
-        `${firstName.charAt(0)} ${middleName} ${lastName}`,
-        `${firstName.charAt(0)} ${middleName.charAt(0)} ${lastName}`,
-        `${firstName.charAt(0)}${middleName.charAt(0)} ${lastName}`,
       ];
+
+      if (middleName) {
+        variants.push(
+          `${firstName} ${middleName} ${lastName}`,
+          `${firstName} ${middleName.charAt(0)} ${lastName}`,
+          `${lastName}, ${middleName.charAt(0)} ${firstName}`,
+          `${firstName.charAt(0)} ${middleName} ${lastName}`,
+          `${firstName.charAt(0)} ${middleName.charAt(0)} ${lastName}`,
+          `${firstName.charAt(0)}${middleName.charAt(0)} ${lastName}`
+        );
+      }
 
       return "(" + variants.map(v => `"${v}"`).join(" | ") + ")";
     }
@@ -226,7 +224,7 @@
                       </button>
                       <p>${query}</p>`;
       queryContainer.appendChild(div);
-      queryContainer.appendChild(document.createElement("hr")); // Adding divider
+      queryContainer.appendChild(document.createElement("hr"));
     }
 
     function runGoogleSearch(query) {
@@ -244,4 +242,4 @@
     }
   </script>
 </body>
-</html>
+</
