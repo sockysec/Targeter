@@ -159,6 +159,7 @@
       displayQueryResult(addTermsToQuery(buildLocationQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "Location Query");
       displayQueryResult(addTermsToQuery(buildFamilyQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "Family Query");
       displayQueryResult(addTermsToQuery(buildFileQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "File Query");
+      displayQueryResult(addTermsToQuery(buildSocialMediaQuery(firstName, middleName, lastName), focusingTerms, exclusionTerms), "Social Media Query");
     }
 
     function addTermsToQuery(query, focusingTerms, exclusionTerms) {
@@ -214,6 +215,11 @@
       return `${nameQuery} AND (filetype:pdf | filetype:doc | filetype:docx | filetype:txt | filetype:ppt | filetype:pptx | filetype:xls | filetype:xlsx | filetype:csv)`;
     }
 
+    function buildSocialMediaQuery(firstName, middleName, lastName) {
+      const nameQuery = buildNameQuery(firstName, middleName, lastName);
+      return `${nameQuery} AND (site:facebook.com OR site:twitter.com OR site:x.com OR site:linkedin.com OR site:instagram.com OR site:tiktok.com)`;
+    }
+
     function displayQueryResult(query, queryName) {
       const queryContainer = document.getElementById("queryResult");
       const div = document.createElement("div");
@@ -228,18 +234,13 @@
     }
 
     function runGoogleSearch(query) {
-      const url = `https://www.google.com/search?q=${query}`;
-      window.open(url, "_blank");
+      window.open(`https://www.google.com/search?q=${query}`, '_blank');
     }
 
     function runAllSearches() {
-      const queries = document.querySelectorAll(".query-text p");
-      queries.forEach(query => {
-        const searchQuery = encodeURIComponent(query.textContent.trim());
-        const url = `https://www.google.com/search?q=${searchQuery}`;
-        window.open(url, "_blank");
-      });
+      const allQueries = Array.from(document.querySelectorAll('.query-text p')).map(p => p.textContent);
+      allQueries.forEach(query => window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank'));
     }
   </script>
 </body>
-</
+</html>
